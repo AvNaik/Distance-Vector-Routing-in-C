@@ -1,0 +1,38 @@
+Project 3 Report
+
+Distance Vector Routing Protocol
+
+Router/Nodes Id:-
+		In this code for simplicity we have assumed that the nodes will have ids as letters they can be from 'a' to 'z'.
+		There is a slight modification from the requirement given in the project description.
+		One additional line is added to the file which indicates the node id.
+
+
+Port Numbers:-
+		For simplicity port numbers are calculated by function 'int calc_port_no(char node_id)'. 
+		The port numbers are assumed to start from 10000, for a node with 'a'.
+		'a' = 10000 
+		'b' = 10001 
+		'c' = 10002 and so on.
+		All the nodes use this function to calculate their port numbers and also the port numbers of it's neighbors after reading
+		 the input file. 
+		
+Communication:- 
+		The Rotuing table packets are sent over UDP protocol.
+		A new thread is started for sending these packets to the neighbors, thtis thread one by one sends packets to each neighbor 
+		and then exits.
+		The receiving is done in the main process where a listening socket is created.
+		So that the code doesn't get stuck we have kept a timeout for receiver.
+
+
+Routing Table Update:- 
+		The function performing the update is 'void UpdateMyRoutingTable(void)'. 
+		In this function the routing table is updated if the new cost is less than older cost to same destination.
+		This function also takes care of the looping issue. In order to solve looping issue instead of implementing poison reverse
+		which would have rewuired changes in the sender as well as recevier code, the receiver is given the responsibility of checking 
+		the next hop of the entry, if the next hop is itself then the node skips this entry.
+		The looping issue has been tested and works correctly.
+
+Link Changes:-
+		The function 'void UpdateNeighborDetails(void)' handles the file reading and updating the table in case of changes in the link costs.
+		Tested and works correctly.
